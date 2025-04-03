@@ -6,6 +6,7 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 include '../config/database.php';
+include 'navbar.php';
 
 $user_id = $_SESSION['user_id'];
 ?>
@@ -19,9 +20,9 @@ $user_id = $_SESSION['user_id'];
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../assets/js/script.js" defer></script>
 </head>
-<body class="bg-gray-100 p-6">
+<body class="bg-gradient-to-l from-black via-blue-800 to-yellow-500 p-6">
 
-    <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-lg  mt-24">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold text-gray-700">📅 Production Schedule</h2>
             <a href="../auth/logout.php" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Logout</a>
