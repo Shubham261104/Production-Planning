@@ -6,8 +6,9 @@
         <!-- Navigation Links -->
         <div class="hidden md:flex space-x-6">
             <a href="../pages/dashboard.php" class="hover:text-yellow-400 transition font-medium">Dashboard</a>
-            <a href="../pages/tasks.php" class="hover:text-yellow-400 transition font-medium">Tasks</a>
             <a href="../pages/schedule.php" class="hover:text-yellow-400 transition font-medium">Schedule</a>
+            <a href="../auth/login.php" class="hover:text-yellow-400 transition font-medium">Login</a>
+            <a href="../auth/register.php" class="hover:text-yellow-400 transition font-medium">Signup</a>
         </div>
 
         <!-- User Profile / Logout -->
