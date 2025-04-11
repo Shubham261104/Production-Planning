@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Debugging: Check if session variables exist
 if (!isset($_SESSION["user_id"])) {
     header("Location: ../auth/login.php");
     exit();
@@ -9,14 +8,12 @@ if (!isset($_SESSION["user_id"])) {
 
 include "../config/database.php";
 
-// Check if 'id' is set in the URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     die("<p class='text-red-500 text-center'>Task ID is missing.</p>");
 }
 
 $task_id = $_GET['id'];
 
-// Fetch task details
 $sql = "SELECT * FROM production_schedule WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $task_id);
@@ -28,7 +25,6 @@ if (!$task) {
     die("<p class='text-red-500 text-center'>Task not found.</p>");
 }
 
-// Handle form submission for updating task
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $task_name = $_POST['task_name'];
     $start_time = $_POST['start_time'];
@@ -51,48 +47,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Task</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Task</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .glass-card {
+      backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .float-label input:focus ~ label,
+    .float-label input:not(:placeholder-shown) ~ label {
+      transform: scale(0.85) translateY(-1.5rem);
+      color: #3b82f6;
+    }
+
+    .float-label input {
+      transition: all 0.2s ease;
+    }
+
+    .float-label label {
+      position: absolute;
+      left: 1rem;
+      top: 0.75rem;
+      transition: all 0.2s ease;
+      pointer-events: none;
+      color: #9ca3af;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-gray-100 to-gray-300 flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Edit Task</h2>
 
-        <form method="POST" class="space-y-4">
-            <label class="block">
-                <span class="text-gray-700">Task Name</span>
-                <input type="text" name="task_name" value="<?= htmlspecialchars($task['task_name']) ?>" required 
-                       class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            </label>
+<body class="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 min-h-screen flex items-center justify-center px-4">
 
-            <label class="block">
-                <span class="text-gray-700">Start Time</span>
-                <input type="datetime-local" name="start_time" value="<?= htmlspecialchars($task['start_time']) ?>" required 
-                       class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            </label>
+  <div class="glass-card p-10 rounded-3xl shadow-2xl w-full max-w-lg">
+    <h2 class="text-4xl font-bold text-center text-blue-600 mb-10 animate-pulse tracking-wide">✏️ Edit Task</h2>
 
-            <label class="block">
-                <span class="text-gray-700">End Time</span>
-                <input type="datetime-local" name="end_time" value="<?= htmlspecialchars($task['end_time']) ?>" required 
-                       class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            </label>
+    <form method="POST" class="space-y-8">
 
-            <label class="block">
-                <span class="text-gray-700">Status</span>
-                <select name="status" required 
-                        class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="Pending" <?= $task['status'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
-                    <option value="In Progress" <?= $task['status'] == 'In Progress' ? 'selected' : '' ?>>In Progress</option>
-                    <option value="Completed" <?= $task['status'] == 'Completed' ? 'selected' : '' ?>>Completed</option>
-                </select>
-            </label>
+      <!-- Task Name -->
+      <div class="relative float-label">
+        <input type="text" name="task_name" placeholder=" " value="<?= htmlspecialchars($task['task_name']) ?>" required
+          class="peer w-full px-4 py-3 border border-gray-300 rounded-lg bg-white bg-opacity-60 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none">
+        <label class="absolute left-4 top-3 text-sm transition-all">Task Name</label>
+      </div>
 
-            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all">Update Task</button>
-        </form>
+      <!-- Start Time -->
+      <div class="relative float-label">
+        <input type="datetime-local" name="start_time" placeholder=" " value="<?= htmlspecialchars($task['start_time']) ?>" required
+          class="peer w-full px-4 py-3 border border-gray-300 rounded-lg bg-white bg-opacity-60 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none">
+        <label class="absolute left-4 top-3 text-sm transition-all">Start Time</label>
+      </div>
 
-        <a href="dashboard.php" class="block text-center mt-4 text-gray-600 hover:underline">Cancel</a>
-    </div>
+      <!-- End Time -->
+      <div class="relative float-label">
+        <input type="datetime-local" name="end_time" placeholder=" " value="<?= htmlspecialchars($task['end_time']) ?>" required
+          class="peer w-full px-4 py-3 border border-gray-300 rounded-lg bg-white bg-opacity-60 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none">
+        <label class="absolute left-4 top-3 text-sm transition-all">End Time</label>
+      </div>
+
+      <!-- Status -->
+      <div class="relative">
+        <select name="status" required
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white bg-opacity-60 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          <option value="Pending" <?= $task['status'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
+          <option value="In Progress" <?= $task['status'] == 'In Progress' ? 'selected' : '' ?>>In Progress</option>
+          <option value="Completed" <?= $task['status'] == 'Completed' ? 'selected' : '' ?>>Completed</option>
+        </select>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+        class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold py-3 rounded-xl shadow-md hover:from-blue-600 hover:to-indigo-600 transition duration-300 transform hover:scale-105">
+        💾 Update Task
+      </button>
+    </form>
+
+    <a href="dashboard.php"
+      class="block text-center mt-6 text-sm text-blue-500 hover:underline hover:text-blue-700 transition duration-200">
+      ← Back to Dashboard
+    </a>
+  </div>
+
 </body>
 </html>

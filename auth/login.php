@@ -13,7 +13,7 @@ include "../config/database.php";
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gradient-to-r from-black via-blue-800 to-yellow-500 min-h-screen flex flex-col">
+<body class="bg-gradient-to-r from-blue-300 via-orange-800 to-yellow-300 min-h-screen flex flex-col">
 
     <!-- Navbar -->
     <?php include '../pages/navbar.php'; ?>
