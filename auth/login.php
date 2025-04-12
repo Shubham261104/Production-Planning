@@ -58,7 +58,7 @@ include "../config/database.php";
             </form>
             
             <p class="text-gray-700 text-sm text-center mt-4">
-                Don't have an account? <a href="register.php" class="text-blue-600 font-semibold hover:underline">Sign up</a>
+                Don't have an account? <a href="register.php" class="text-blue-700 font-semibold hover:underline">Sign up</a>
             </p>
         </div>
     </div>
