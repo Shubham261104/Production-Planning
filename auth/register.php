@@ -1,35 +1,37 @@
 <?php
 session_start();
 include "../config/database.php";
-include "../pages/navbar.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Handle registration logic before HTML
+$register_error = "";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
-    
-    // Check if username already exists
-    $check_sql = "SELECT * FROM users WHERE username = ?";
-    $check_stmt = $conn->prepare($check_sql);
-    $check_stmt->bind_param("s", $username);
-    $check_stmt->execute();
-    $result = $check_stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $error = "Username already taken!";
+    if (empty($username) || empty($password)) {
+        $register_error = "All fields are required.";
     } else {
-        // Hash the password
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $check_sql = "SELECT id FROM users WHERE username = ?";
+        $check_stmt = $conn->prepare($check_sql);
+        $check_stmt->bind_param("s", $username);
+        $check_stmt->execute();
+        $result = $check_stmt->get_result();
 
-        // Insert user into database
-        $insert_sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-        $insert_stmt = $conn->prepare($insert_sql);
-        $insert_stmt->bind_param("ss", $username, $hashed_password);
-
-        if ($insert_stmt->execute()) {
-            header("Location: login.php?msg=Registration successful! Please login.");
-            exit();
+        if ($result->num_rows > 0) {
+            $register_error = "Username already exists.";
         } else {
-            $error = "Error registering user: " . $conn->error;
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            $insert_sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+            $insert_stmt = $conn->prepare($insert_sql);
+            $insert_stmt->bind_param("ss", $username, $hashed_password);
+
+            if ($insert_stmt->execute()) {
+                header("Location: login.php?msg=registered");
+                exit();
+            } else {
+                $register_error = "Something went wrong. Please try again.";
+            }
         }
     }
 }
@@ -40,16 +42,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Register | Production Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-l from-green-400 via-blue-800 to-yellow-500 flex items-center justify-center h-screen">
+
     <div class="bg-white p-6 rounded shadow-lg w-96">
         <h2 class="text-xl font-bold mb-4 text-center">Register</h2>
 
-        <?php if (isset($error)) { ?>
-            <p class="text-red-500 text-sm text-center"><?= $error ?></p>
-        <?php } ?>
+        <?php if (!empty($register_error)) : ?>
+            <p class="text-red-500 text-sm text-center"><?= htmlspecialchars($register_error) ?></p>
+        <?php endif; ?>
 
         <form method="POST" class="space-y-4">
             <label class="block">

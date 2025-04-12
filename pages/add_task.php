@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <option value="Completed">✅ Completed</option>
       </select>
 
-      <!-- Button -->
+     
       <button type="submit"
         class="w-full py-3 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-500 to-emerald-500 hover:from-indigo-600 hover:to-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
         ➕ Add Task
