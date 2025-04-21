@@ -36,41 +36,47 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-
+<?php include '../pages/navbar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Production Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-l from-green-400 via-blue-800 to-yellow-500 flex items-center justify-center h-screen">
 
-    <div class="bg-white p-6 rounded shadow-lg w-96">
-        <h2 class="text-xl font-bold mb-4 text-center">Register</h2>
+<body class="bg-gradient-to-r from-blue-300 via-orange-800 to-yellow-300 min-h-screen flex flex-col mt-20">
 
-        <?php if (!empty($register_error)) : ?>
-            <p class="text-red-500 text-sm text-center"><?= htmlspecialchars($register_error) ?></p>
-        <?php endif; ?>
+    <!-- Register Form -->
+    <div class="flex flex-1 items-center justify-center">
+        <div class="bg-white bg-opacity-90 backdrop-blur-md shadow-lg rounded-xl p-8 max-w-sm w-full">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">Register</h2>
 
-        <form method="POST" class="space-y-4">
-            <label class="block">
-                <span class="text-gray-700">Username</span>
-                <input type="text" name="username" required class="w-full mt-1 px-3 py-2 border border-gray-300 rounded">
-            </label>
+            <?php if (!empty($register_error)) : ?>
+                <p class="text-red-500 text-center font-semibold mb-4"><?= htmlspecialchars($register_error) ?></p>
+            <?php endif; ?>
 
-            <label class="block">
-                <span class="text-gray-700">Password</span>
-                <input type="password" name="password" required class="w-full mt-1 px-3 py-2 border border-gray-300 rounded">
-            </label>
+            <form method="POST" class="space-y-4">
+                <input type="text" name="username" placeholder="Username" required
+                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 bg-gray-50 shadow-sm">
+                <input type="password" name="password" placeholder="Password" required
+                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 bg-gray-50 shadow-sm">
+                <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-md">
+                    Register
+                </button>
+            </form>
 
-            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Register</button>
-        </form>
-
-        <p class="text-sm text-center mt-4">
-            Already have an account? <a href="login.php" class="text-blue-500 hover:underline">Login here</a>.
-        </p>
+            <p class="text-gray-700 text-sm text-center mt-4">
+                Already have an account? <a href="login.php" class="text-blue-600 font-semibold hover:underline">Login here</a>
+            </p>
+        </div>
     </div>
+
+    <?php include '../includes/footer.php'; ?>
+
 </body>
+
 </html>

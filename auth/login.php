@@ -25,19 +25,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-
+<?php include '../pages/navbar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Production Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-r from-blue-300 via-orange-800 to-yellow-300 min-h-screen flex flex-col">
+
+<body class="bg-gradient-to-r from-blue-300 via-orange-800 to-yellow-300 min-h-screen flex flex-col mt-20">
 
     <!-- Navbar -->
-    <?php include '../pages/navbar.php'; ?>
+
 
     <!-- Login Form -->
     <div class="flex flex-1 items-center justify-center">
@@ -64,5 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </p>
         </div>
     </div>
+
+    <?php include '../includes/footer.php'; ?>
 </body>
+
 </html>

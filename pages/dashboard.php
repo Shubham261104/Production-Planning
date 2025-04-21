@@ -13,6 +13,7 @@ $user_id = $_SESSION['user_id'];
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +21,7 @@ $user_id = $_SESSION['user_id'];
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../assets/js/script.js" defer></script>
 </head>
+
 <body class="bg-gradient-to-l from-black via-blue-800 to-yellow-500 min-h-screen p-6">
 
     <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-lg mt-24">
@@ -88,16 +90,16 @@ $user_id = $_SESSION['user_id'];
                     <?php if (!empty($tasks)): ?>
                         <?php foreach ($tasks as $row): ?>
                             <?php
-                                $progressWidth = 'w-0';
-                                $progressColor = 'bg-gray-400';
+                            $progressWidth = 'w-0';
+                            $progressColor = 'bg-gray-400';
 
-                                if ($row['status'] === 'In Progress') {
-                                    $progressWidth = 'w-1/2';
-                                    $progressColor = 'bg-yellow-400';
-                                } elseif ($row['status'] === 'Completed') {
-                                    $progressWidth = 'w-full';
-                                    $progressColor = 'bg-green-500';
-                                }
+                            if ($row['status'] === 'In Progress') {
+                                $progressWidth = 'w-1/2';
+                                $progressColor = 'bg-yellow-400';
+                            } elseif ($row['status'] === 'Completed') {
+                                $progressWidth = 'w-full';
+                                $progressColor = 'bg-green-500';
+                            }
                             ?>
                             <tr class='hover:bg-gray-100 transition'>
                                 <td class='border border-gray-300 px-4 py-2'><?= $row['task_name'] ?></td>
@@ -116,7 +118,9 @@ $user_id = $_SESSION['user_id'];
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <tr><td colspan='5' class='text-center p-4 text-gray-600'>No tasks found</td></tr>
+                        <tr>
+                            <td colspan='5' class='text-center p-4 text-gray-600'>No tasks found</td>
+                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -130,7 +134,7 @@ $user_id = $_SESSION['user_id'];
 
     <!-- JavaScript for Search Filter -->
     <script>
-        document.getElementById('search').addEventListener('input', function () {
+        document.getElementById('search').addEventListener('input', function() {
             let filter = this.value.toLowerCase();
             let rows = document.querySelectorAll('#taskTable tr');
 
@@ -141,5 +145,9 @@ $user_id = $_SESSION['user_id'];
         });
     </script>
 
+    <?php include '../includes/footer.php'; ?>
+
+
 </body>
+
 </html>
